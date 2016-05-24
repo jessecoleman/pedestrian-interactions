@@ -15,7 +15,6 @@
  *  @brief      An example of how to use this library.
  */
 #include "SimulationEngine.h"
-#include "conio.h"
 using namespace TTC;
 
 SimulationEngine * _engine = 0;
@@ -96,7 +95,7 @@ int main(int argc, char **argv)
 
 
 	//press a key to terminate
-	while (!_kbhit())
+	while (true)
 	{
 		 
 	}
