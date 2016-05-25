@@ -85,20 +85,13 @@ int main(int argc, char **argv)
 	// setup the scenario
 	setupScenario();
 	
-	
+	_engine->printCSVHeader();
 	// Run the scenario
 	do 
 	{
-		_engine->updateVisualisation();
+		_engine->printCSV();
 		_engine->updateSimulation();
 	} while ( !_engine->endSimulation());	
-
-
-	//press a key to terminate
-	while (true)
-	{
-		 
-	}
 
 	//destroy the environment
 	destroy();

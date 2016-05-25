@@ -111,6 +111,28 @@ namespace TTC {
 	  std::cout << std::endl;
 	}
 	
+	void SimulationEngine::printCSVHeader(){
+		std::cout << "time;";
+
+		for(int i = 0 ; i < _agents.size()-1; i++){
+			std::cout << i << ";";
+		}
+
+		if(_agents.size())
+			std::cout << _agents.size()-1 << std::endl;
+	}
+
+	void SimulationEngine::printCSV(){
+		std::cout << _globalTime << ";";
+
+		for(int i = 0 ; i < _agents.size()-1; i++){
+			std::cout << _agents[i]->position() << ";";
+		}
+
+		if(_agents.size()){
+			std::cout << _agents[_agents.size()-1]->position() << std::endl;
+		}
+	}
 	
 	void SimulationEngine::exportSimulation(std::ofstream& file)
 	{   

@@ -3,6 +3,6 @@
 
 
 all:
-	g++ -o example -Iinclude src/Agent.cpp src/LineObstacle.cpp src/lq2D.cpp src/SimulationEngine.cpp src/Example.cpp
+	g++ -o bin/example -Iinclude src/Agent.cpp src/LineObstacle.cpp src/lq2D.cpp src/SimulationEngine.cpp src/Example.cpp
 
 

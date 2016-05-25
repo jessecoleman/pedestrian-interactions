@@ -100,6 +100,9 @@ namespace TTC {
 		 *  Outputs a simulation step in the console.
 		 */
 		 void updateVisualisation();
+
+		 void printCSVHeader();
+		 void printCSV();
 		
 		/*! 
 		 * @brief
