@@ -71,6 +71,46 @@ void setupScenario()
     */
 }
 
+void twoPersonScenario(){
+
+	_engine->init(50, 50);
+
+    // Specify the default parameters for agents that are subsequently added.	
+	AgentInitialParameters par;
+
+	par.k = 1.5f;
+	par.ksi = 0.54f;
+	par.m = 2.0f;
+	par.t0 = 3.f;
+	par.neighborDist = 10.f;
+	par.maxAccel = 20.f; 
+	par.radius = 0.5f;
+	par.prefSpeed = 1.4f;
+	par.goalRadius = 0.5f;
+
+	AgentInitialParameters person1 = par;
+	AgentInitialParameters person2 = par;
+
+	person1.position = Vector2D(-10, 0.0001);
+	person2.position = Vector2D(10, 0);
+
+	person1.goal = Vector2D(10, 0);
+	person2.goal = Vector2D(-10, 0);
+
+	person1.velocity = Vector2D();
+	person2.velocity = Vector2D();
+
+	person1.prefSpeed = 2;
+	person2.prefSpeed = 2;
+
+	_engine->addAgent(person1);
+	_engine->addAgent(person2);
+
+}
+
+
+void 
+
 int main(int argc, char **argv)
 {	
 	//default parameters
@@ -83,7 +123,7 @@ int main(int argc, char **argv)
 	_engine->setMaxSteps(numFrames);
 
 	// setup the scenario
-	setupScenario();
+	twoPersonScenario();
 	
 	_engine->printCSVHeader();
 	// Run the scenario
