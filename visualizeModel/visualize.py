@@ -15,7 +15,7 @@ timescale = 4
 
 #load the file
 if len(sys.argv) is not 2:
-	print 'must priovide a file to visualize!'
+	print('must priovide a file to visualize!')
 	exit(-1)
 
 fname = sys.argv[1]
@@ -39,7 +39,7 @@ for line in file:
 
 numframes = len(poslist) / timescale
 
-print 'making figure'
+print('making figure')
 fig, ax = plt.subplots()
 ax.set_xlim(xmin,xmax)
 ax.set_ylim(ymin,ymax)
@@ -53,18 +53,16 @@ def animate(i):
 	people.set_data(state[:,0], state[:,1])
 	return people
 
-print 'making animation'
-ani = animation.FuncAnimation(fig, animate, frames=numframes, interval=1000*dt/timescale, blit=False)
+print('making animation')
+ani = animation.FuncAnimation(fig, animate, frames=int(numframes), interval=1000*dt//timescale, blit=False)
 
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=15, bitrate=1800)
+#Writer = animation.writers['ffmpeg']
+#writer = Writer(fps=15, bitrate=1800)
 
-print 'showing plot'
+print('showing plot')
 plt.show()
 
-print 'saving file'
-ani.save(fname+'.mp4', writer=writer)
+print('saving file')
+#ani.save(fname+'.mp4', writer=writer)
 
-print 'done'
-
-
+print('done')
