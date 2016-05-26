@@ -15,6 +15,7 @@
  *  @brief      An example of how to use this library.
  */
 #include "SimulationEngine.h"
+#include <utility>
 using namespace TTC;
 
 SimulationEngine * _engine = 0;
@@ -107,15 +108,75 @@ void twoPersonScenario(){
 	_engine->addAgent(person2);
 
 }
+ 
+void bottleneckScenario(){
+	_engine->init(50, 50);
 
+    // Specify the default parameters for agents that are subsequently added.	
+	AgentInitialParameters par;
 
-void 
+	par.k = 1.5f;
+	par.ksi = 0.54f;
+	par.m = 2.0f;
+	par.t0 = 3.f;
+	par.neighborDist = 10.f;
+	par.maxAccel = 20.f; 
+	par.radius = 0.5f;
+	par.prefSpeed = 1.4f;
+	par.goalRadius = 0.5f;
+
+	//make box
+	Vector2D ulcorner(-8, 8);
+	Vector2D urcorner(4,8);
+	Vector2D llcorner(-8,-8);
+	Vector2D lrcorner(4,-8);
+	Vector2D upperdoor(4,2);
+	Vector2D lowerdoor(4,-2);
+
+	std::pair<Vector2D, Vector2D> topline(ulcorner, urcorner);
+	std::pair<Vector2D, Vector2D> leftline(ulcorner, llcorner);
+	std::pair<Vector2D, Vector2D> bottomline(llcorner, lrcorner);
+	std::pair<Vector2D, Vector2D> toprightline(urcorner, upperdoor);
+	std::pair<Vector2D, Vector2D> bottomrightline(lrcorner, lowerdoor);
+
+	_engine->addObstacle(topline);
+	_engine->addObstacle(leftline);
+	_engine->addObstacle(bottomline);
+	_engine->addObstacle(toprightline);
+	_engine->addObstacle(bottomrightline);
+
+   for (int i = 0; i < 500; i ++){
+		AgentInitialParameters p = par;  
+		p.position = Vector2D(((float)rand()/(float)RAND_MAX-0.5)*4,((float)rand()/(float)RAND_MAX-0.5)*4);
+		p.goal = Vector2D(20, 0);
+		p.velocity = Vector2D();
+
+		//gaussian distributed speed
+		float u;
+		do{
+			u = (float)rand()/(float)RAND_MAX;
+		} while (u >= 1.0);
+		p.prefSpeed += sqrtf( -2.f * logf( 1.f - u)) * 0.1f * cosf(2.f*_M_PI*(float)rand()/(float)RAND_MAX);
+		_engine->addAgent(p);
+   }
+}
+
+Vector2D force(Vector2D f){
+	return Vector2D(2,2);//-1*f/(f.x*f.x + f.y*f.y)*10;
+}
+
+void twoPersonScenarioForce(){
+	// std::cout << "example.cpp " << force(Vector2D(0,0)) << std::endl;
+	_engine->setForceFunction(force);
+	twoPersonScenario();
+}
+
 
 int main(int argc, char **argv)
 {	
 	//default parameters
-	int numFrames = 5000;
-	float dt = 0.005f;
+	int numFrames = 500;
+	float dt = 0.05f;
 	
 	//load the engine
 	_engine = new SimulationEngine(); 
@@ -123,7 +184,7 @@ int main(int argc, char **argv)
 	_engine->setMaxSteps(numFrames);
 
 	// setup the scenario
-	twoPersonScenario();
+	bottleneckScenario();
 	
 	_engine->printCSVHeader();
 	// Run the scenario

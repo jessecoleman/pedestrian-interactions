@@ -28,6 +28,9 @@ namespace TTC {
 	 * @class  Agent
 	 * @brief  Simulates the anticipatory behavior of an agent.
 	 */
+
+	typedef std::function<Vector2D(Vector2D)> ForceFunction;
+	
 	class Agent: public ProximityDatabaseItem
 	{
 	public:
@@ -36,6 +39,8 @@ namespace TTC {
 		void init(const AgentInitialParameters & initialConditions);
 		void update();
 		void doStep();
+		void setForceFunction(ForceFunction force);
+		ForceFunction force;
 
 		/// @name Agent functionality
 		//@{
@@ -87,6 +92,7 @@ namespace TTC {
 		inline void computeForces();
 		/// Destroy the agent.
 		inline void destroy();
+
 		
 
 	protected:

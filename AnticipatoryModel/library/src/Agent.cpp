@@ -56,6 +56,8 @@ namespace TTC {
 		_proximityToken = simEngine->getSpatialDatabase()->allocateToken(this);
 		// notify proximity database that our position has changed
 		_proximityToken->updateForNewPosition (_position);
+
+		// force = zero;
 		
 	}
 
@@ -79,10 +81,11 @@ namespace TTC {
 		computeForces();
 	}
 
+
+
 	void Agent::computeForces()
 	{
-
-		//driving force
+		//driving force_velocity
 		_F = (_vPref - _velocity)/_ksi;
 
 		// Compute new neighbors of agent;
@@ -231,10 +234,17 @@ namespace TTC {
 			 }
 
 		}	
-			
-		
+		// std::cout << "_Fb: " << _F;
+		//force function
+		_F += force(_position);
+
+		// std::cout << " _Fa: " << _F << std::endl;
 	}
 
+	void Agent::setForceFunction(ForceFunction force){
+		// std::cout << "setting force function " << force(Vector2D(0,0)) << std::endl;
+		this->force = force;
+	}
 
 	void Agent::update()
 	{

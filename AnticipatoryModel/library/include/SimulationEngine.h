@@ -122,7 +122,9 @@ namespace TTC {
 		 *  @param lineSegment The start and end point of the line segment
 		 */
 		 void addObstacle(const std::pair<Vector2D, Vector2D>& lineSegment);
-		
+	
+		void setForceFunction(ForceFunction force);
+		ForceFunction force;
 	
 		/// @name Get/Set functionality
 		//@{

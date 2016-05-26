@@ -21,6 +21,10 @@ TTC::SimulationEngine* simEngine;
 
 namespace TTC {
 
+	Vector2D zero(Vector2D){
+		return Vector2D(0,0);
+	}
+
 	SimulationEngine::SimulationEngine()
 	{
 		_spatialDatabase = NULL;
@@ -61,6 +65,7 @@ namespace TTC {
 		
 		//initialize the database
 		_spatialDatabase = new SpatialProximityDatabase(Vector2D(), Vector2D(xRange,yRange), Vector2D(10.0f, 10.0f));
+		force = zero;
 		
 	}
 
@@ -123,6 +128,7 @@ namespace TTC {
 	}
 
 	void SimulationEngine::printCSV(){
+		// std::cout << "printCSV " << force(Vector2D(0,0)) << std::endl;
 		std::cout << _globalTime << ";";
 
 		for(int i = 0 ; i < _agents.size()-1; i++){
@@ -148,11 +154,21 @@ namespace TTC {
 
 	void SimulationEngine::addAgent(AgentInitialParameters& agentConditions)
 	{
+		// std::cout << "addAgent " << force(Vector2D(0,0)) << std::endl;
+
 		Agent* newAgent = new Agent();
 		if (newAgent != NULL) {
 			newAgent->init(agentConditions);
+			// std::cout << "addAgent " << force(Vector2D(0,0)) << std::endl;
+			newAgent->setForceFunction(this->force);
 			_agents.push_back(newAgent);
 		}
+	}
+
+	void SimulationEngine::setForceFunction(ForceFunction force){
+		// std::cout << "SimulationEngine.cpp " << force(Vector2D(0,0)) << std::endl;
+		this->force = force;
+		// std::cout << "SimulationEngine.cpp " << this->force(Vector2D(0,0)) << std::endl;
 	}
 
 	void SimulationEngine::addObstacle(const std::pair<Vector2D, Vector2D>& lineSegment)

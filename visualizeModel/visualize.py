@@ -10,8 +10,8 @@ xmin = -10
 xmax = 10
 ymin = -10
 ymax = 10
-dt = 0.005
-timescale = 4
+dt = 0.05
+timescale = 1
 
 #load the file
 if len(sys.argv) is not 2:
@@ -48,7 +48,7 @@ people, = ax.plot([],[], 'bo')
 
 def animate(i):
 
-	# print 'step: ', i, 'time: ', i*dt*timescale
+	print 'step: ', i, 'time: ', i*dt*timescale
 	state = poslist[i * timescale];
 	people.set_data(state[:,0], state[:,1])
 	return people
@@ -62,8 +62,8 @@ writer = Writer(fps=15, bitrate=1800)
 print 'showing plot'
 plt.show()
 
-print 'saving file'
-ani.save(fname+'.mp4', writer=writer)
+# print 'saving file'
+# ani.save(fname+'.mp4', writer=writer)
 
 print 'done'
 
