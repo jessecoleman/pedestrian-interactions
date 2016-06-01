@@ -99,25 +99,74 @@ namespace TTC {
 	}
 
 
-	bool SimulationEngine::outsideRoom(Agent* agent){
-		return false;
+	// bool SimulationEngine::outsideRoom(Agent* agent){
+	// 	//get all the points of the room
+	// 	std::vector<Vector2D> room;
+	// 	for(int i = 0; i < _obstacles->size(); i++){
+	// 		room.push_back(_obstacles[i].p1());
+	// 		room.push_back(_obstacles[i].p2());
+	// 	}
+
+	// 	//get all vectors from agent position to all points
+	// 	Vector2D pos = agent->position();
+	// 	for(int i = 0; i < room.size(); i++){
+	// 		room[i] = room[i] - pos;
+	// 	}
+
+	// 	double maxangle = -1;
+	// 	double minangle = 1000;
+	// 	int minindex = 0;
+	// 	int maxindex = 0;
+
+	// 	for(int i = 0; i < room.size(); i++){
+	// 		Vector2D p1 = room[i].p1();
+	// 		Vector2D p2 = room[i].p2();
+	// 		double dx = p2.x - p1.x;
+	// 		double dy = p2.y - p1.y;
+	// 		double angle = atan2(dy, dx);
+
+	// 		if(angle > maxangle){
+	// 			maxangle = angle;
+	// 		}
+
+	// 		if(angle < minangle){
+	// 			minangle = angle;
+	// 		}
+	// 	}
+	// 	return abs(maxangle - minangle) < 3.14159;
+	// }
+
+	// bool SimulationEngine::allAreDeadOrEvacuated(){
+	// 	for(int i = 0; i < (int)_agents.size(); i++){
+	// 		if(_agents[i]->isDead() || outsideRoom(_agents[i])){
+
+	// 		}else{
+	// 			return false;
+	// 		}
+	// 	}
+	// 	return true;
+	// }	
+
+	int SimulationEngine::numberDead(){
+		int ret = 0;
+		for(int i = 0; i < _agents.size(); i++){
+			ret += _agents[i]->isDead();
+		}
+		return ret;
 	}
 
-	bool SimulationEngine::allAreDeadOrEvacuated(){
-		for(int i = 0; i < (int)_agents.size(); i++){
-			if(_agents[i]->isDead() || outsideRoom(_agents[i])){
-
-			}else{
-				return false;
-			}
+	int SimulationEngine::numberDone(){
+		int ret = 0;
+		for(int i = 0; i < _agents.size(); i++){
+			ret += _agents[i]->isDone();
 		}
-		return true;
-	}	
+		return ret;
+	}
 
 	bool SimulationEngine::endSimulation()
 	{
 
-		return _reachedGoals || _iteration >= _maxSteps || allAreDeadOrEvacuated();
+		return _reachedGoals || _iteration >= _maxSteps || numberDone() == _agents.size();
 	}
 
 	void SimulationEngine::updateVisualisation()

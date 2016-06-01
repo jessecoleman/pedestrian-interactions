@@ -255,9 +255,14 @@ namespace TTC {
 	}
 
 	bool Agent::isDead(){
-		bool ret = _position.length() < rad(simEngine->getGlobalTime());
-		// std::cout << "id " << _id << " _pos.len() " << _position.length() << " r "  << rad(simEngine->getGlobalTime()) << std::endl;
-		return ret;
+		// bool ret = _position.length() < rad(simEngine->getGlobalTime());
+		// // std::cout << "id " << _id << " _pos.len() " << _position.length() << " r "  << rad(simEngine->getGlobalTime()) << std::endl;
+		// return ret && !_enabled;
+		return ded;
+	}
+
+	bool Agent::isDone(){
+		return isDead() || !_enabled;
 	}
 
 	void Agent::update()
@@ -267,7 +272,12 @@ namespace TTC {
 		clamp(acceleration, _maxAccel);
 		_velocity = _velocity + acceleration * simEngine->getTimeStep();
 
-		if(isDead()){
+		if(_position.length() < rad(simEngine->getGlobalTime()) && _enabled){
+			// std::cout << "\n\n\n\n\n*********AGENT HAS DIED!!!!!!!******************\n\n\n\n\n";
+			ded = true;
+		}
+
+		if(ded){
 			_velocity = Vector2D(0,0);
 		}
 

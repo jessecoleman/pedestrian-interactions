@@ -18,6 +18,9 @@
 #include <utility>
 using namespace TTC;
 
+double radiusGrowth = 0;
+
+
 SimulationEngine * _engine = 0;
 
 void destroy ()
@@ -27,7 +30,6 @@ void destroy ()
 }
 
 double radius(double t){
-	double radiusGrowth = 0.3;
 	return radiusGrowth * t;
 }
 
@@ -65,7 +67,7 @@ void setupScenario()
 	par.maxAccel = 20.f; 
 	par.radius = 0.5f;
 	par.prefSpeed = 1.4f;
-	par.goalRadius = 0.5f;
+	par.goalRadius = 1.5f;
 	
  
 	// Add agents, specifying their start positions, goal positions and preferred speeds. The agents are distributed along the circumference of a circle
@@ -106,8 +108,8 @@ void twoPersonScenario(){
 	par.neighborDist = 10.f;
 	par.maxAccel = 20.f; 
 	par.radius = 0.5f;
-	par.prefSpeed = 1.4f;
-	par.goalRadius = 0.5f;
+	// par.prefSpeed = 1.4f;
+	par.goalRadius = 1.5f;
 
 	AgentInitialParameters person1 = par;
 	AgentInitialParameters person2 = par;
@@ -144,7 +146,7 @@ void bottleneckScenario(){
 	par.maxAccel = 20.f; 
 	par.radius = 0.5f;
 	par.prefSpeed = 1.4f;
-	par.goalRadius = 0.5f;
+	par.goalRadius = 1.5f;
 
 	//make box
 	Vector2D ulcorner(-4, 8.001);
@@ -169,7 +171,7 @@ void bottleneckScenario(){
    for (int i = 0; i < 50; i ++){
 		AgentInitialParameters p = par;  
 		p.position = Vector2D(((float)rand()/(float)RAND_MAX-0.5)*4,((float)rand()/(float)RAND_MAX-0.5)*8);
-		p.goal = Vector2D(20, 0);
+		p.goal = Vector2D(10, 0);
 		p.velocity = Vector2D();
 
 		//gaussian distributed speed
@@ -214,7 +216,7 @@ void twoDoorBottleneckScenarioForce(){
 	par.maxAccel = 20.f; 
 	par.radius = 0.5f;
 	par.prefSpeed = 1.4f;
-	par.goalRadius = 0.5f;
+	par.goalRadius = 1.5f;
 
 	//make box
 	Vector2D ulcorner(-4, 8.001);
@@ -244,8 +246,8 @@ void twoDoorBottleneckScenarioForce(){
    for (int i = 0; i < 50; i ++){
 		AgentInitialParameters p = par;  
 		p.position = Vector2D(((float)rand()/(float)RAND_MAX-0.5)*4,((float)rand()/(float)RAND_MAX-0.5)*8);
-		Vector2D goal1(20,0);
-		Vector2D goal2(-20,0);
+		Vector2D goal1(10,0);
+		Vector2D goal2(-10,0);
 
 		if((p.position - goal1).length() > (p.position - goal2).length()){
 			p.goal = goal2;
@@ -265,11 +267,46 @@ void twoDoorBottleneckScenarioForce(){
    }
 }
 
-int main(int argc, char **argv)
-{	
-	//seed randomly
-	srand (time(NULL));
+// int main(int argc, char **argv)
+// {	
+// 	//seed randomly
+// 	srand (time(NULL));
 
+// 	//default parameters
+// 	int numFrames = 700;
+// 	float dt = 0.05f;
+	
+// 	//load the engine
+// 	// std::cout << "creating engine" << std::endl;
+// 	_engine = new SimulationEngine(); 
+// 	_engine->setTimeStep(dt);
+// 	_engine->setMaxSteps(numFrames);
+
+// 	// setup the scenario
+// 	// std::cout << "setting up scenario" << std::endl;
+// 	bottleneckScenarioForce();
+	
+// 	_engine->printCSVHeader();
+// 	// Run the scenario
+// 	do 
+// 	{
+// 		// std::cout << "printCSV" << std::endl;
+// 		_engine->printCSV();
+// 		// std::cout << "update" << std::endl;
+// 		// std::cout << "numdead " << _engine->numberDead() << " done: " << _engine->numberDone() << " agents " << _engine->getAgents().size() <<std::endl;
+// 		_engine->updateSimulation();
+// 	} while ( !_engine->endSimulation());	
+
+// 	//destroy the environment
+// 	destroy();
+
+// 	return 0;	
+// }
+
+int numberDead;
+double evacTime; 
+
+void simulate(){
 	//default parameters
 	int numFrames = 700;
 	float dt = 0.05f;
@@ -284,21 +321,33 @@ int main(int argc, char **argv)
 	// std::cout << "setting up scenario" << std::endl;
 	twoDoorBottleneckScenarioForce();
 	
-	_engine->printCSVHeader();
+	// _engine->printCSVHeader();
 	// Run the scenario
 	do 
 	{
-		// std::cout << "printCSV" << std::endl;
-		_engine->printCSV();
-		// std::cout << "update" << std::endl;
 		_engine->updateSimulation();
 	} while ( !_engine->endSimulation());	
 
+	numberDead = _engine->numberDead();
+	evacTime = _engine->getGlobalTime();
+
 	//destroy the environment
 	destroy();
-
-	return 0;	
 }
+
+int main(){
+	srand (time(NULL));
+	std::cout << "alpha, numberDead, evacTime" << std::endl;
+	for(double alpha = 0; alpha < 2.5; alpha += 0.1){
+		for(int i = 0; i < 10; i++){
+			radiusGrowth = alpha;
+			simulate();
+			std::cout << alpha <<  "," << numberDead << "," << evacTime << std::endl;
+		}
+	}
+
+}
+
 
 
 

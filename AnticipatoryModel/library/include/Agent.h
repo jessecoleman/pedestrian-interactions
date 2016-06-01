@@ -45,6 +45,8 @@ namespace TTC {
 		void setRadiusFunction(RadiusFunction rad);
 		RadiusFunction rad;
 		bool isDead();
+		bool isDone();
+		bool ded = false;
 
 		/// @name Agent functionality
 		//@{
