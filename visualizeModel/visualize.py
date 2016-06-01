@@ -45,12 +45,24 @@ ax.set_xlim(xmin,xmax)
 ax.set_ylim(ymin,ymax)
 people, = ax.plot([],[], 'bo')
 
+#fire
+patch = plt.Circle((0,0),0.01, fill = False, ec='r');
+ax.add_patch(patch)
+
+#walls
+plt.plot([-4,4],[8,8],'k-')
+plt.plot([-4,4],[-8,-8],'k-')
+plt.plot([-4,-4],[8,-8],'k-')
+plt.plot([4,4],[8,-8],'k-')
+
+radiusGrowth = 0.3
 
 def animate(i):
 
 	print 'step: ', i, 'time: ', i*dt*timescale
 	state = poslist[i * timescale];
 	people.set_data(state[:,0], state[:,1])
+	patch.set_radius(i * dt * timescale * radiusGrowth)
 	return people
 
 print('making animation')

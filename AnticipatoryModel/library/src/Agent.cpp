@@ -249,18 +249,33 @@ namespace TTC {
 		this->force = force;
 	}
 
+	void Agent::setRadiusFunction(RadiusFunction rad){
+		// std::cout << "setRad" << std::endl;
+		this->rad = rad;
+	}
+
+	bool Agent::isDead(){
+		bool ret = _position.length() < rad(simEngine->getGlobalTime());
+		// std::cout << "id " << _id << " _pos.len() " << _position.length() << " r "  << rad(simEngine->getGlobalTime()) << std::endl;
+		return ret;
+	}
+
 	void Agent::update()
 	{
 		// update the agents
 		Vector2D acceleration = _F;
 		clamp(acceleration, _maxAccel);
 		_velocity = _velocity + acceleration * simEngine->getTimeStep();
-		_position += _velocity * simEngine->getTimeStep();
-		
-		
+
 		if(isDead()){
 			_velocity = Vector2D(0,0);
 		}
+
+		// std::cout << "ded " << isDead() <<" pos " << _position;
+		_position += _velocity * simEngine->getTimeStep();
+		// std::cout << " " << _position << std::endl;
+		
+		
 
 		// notify proximity database that our position has changed
 		_proximityToken->updateForNewPosition (_position);

@@ -99,9 +99,25 @@ namespace TTC {
 	}
 
 
+	bool SimulationEngine::outsideRoom(Agent* agent){
+		return false;
+	}
+
+	bool SimulationEngine::allAreDeadOrEvacuated(){
+		for(int i = 0; i < (int)_agents.size(); i++){
+			if(_agents[i]->isDead() || outsideRoom(_agents[i])){
+
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}	
+
 	bool SimulationEngine::endSimulation()
 	{
-		return _reachedGoals || _iteration >= _maxSteps;
+
+		return _reachedGoals || _iteration >= _maxSteps || allAreDeadOrEvacuated();
 	}
 
 	void SimulationEngine::updateVisualisation()
@@ -161,6 +177,7 @@ namespace TTC {
 			newAgent->init(agentConditions);
 			// std::cout << "addAgent " << force(Vector2D(0,0)) << std::endl;
 			newAgent->setForceFunction(this->force);
+			newAgent->setRadiusFunction(this->rad);
 			_agents.push_back(newAgent);
 		}
 	}
@@ -169,6 +186,10 @@ namespace TTC {
 		// std::cout << "SimulationEngine.cpp " << force(Vector2D(0,0)) << std::endl;
 		this->force = force;
 		// std::cout << "SimulationEngine.cpp " << this->force(Vector2D(0,0)) << std::endl;
+	}
+
+	void SimulationEngine::setRadiusFunction(RadiusFunction rad){
+		this->rad = rad;
 	}
 
 	void SimulationEngine::addObstacle(const std::pair<Vector2D, Vector2D>& lineSegment)

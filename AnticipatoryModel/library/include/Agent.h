@@ -30,7 +30,7 @@ namespace TTC {
 	 */
 
 	typedef std::function<Vector2D(Vector2D, double)> ForceFunction;
-	typedef std::
+	typedef std::function<double(double)> RadiusFunction;
 	
 	class Agent: public ProximityDatabaseItem
 	{
@@ -42,6 +42,8 @@ namespace TTC {
 		void doStep();
 		void setForceFunction(ForceFunction force);
 		ForceFunction force;
+		void setRadiusFunction(RadiusFunction rad);
+		RadiusFunction rad;
 		bool isDead();
 
 		/// @name Agent functionality

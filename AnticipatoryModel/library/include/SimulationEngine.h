@@ -126,8 +126,11 @@ namespace TTC {
 		void setForceFunction(ForceFunction force);
 		ForceFunction force;
 	
-		void setRadiusFunciton(RadiusFunction rad);
+		void setRadiusFunction(RadiusFunction rad);
 		RadiusFunction rad;
+
+		bool allAreDeadOrEvacuated();
+		bool outsideRoom(Agent*);
 
 		/// @name Get/Set functionality
 		//@{

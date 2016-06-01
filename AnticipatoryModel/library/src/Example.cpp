@@ -37,7 +37,7 @@ Vector2D force(Vector2D f, double t){
 	if(f.x == 0 || f.y == 0)
 		return Vector2D(0,0);
 
-	double fireTemp = 10;
+	double fireTemp = 1;
 	double fireFalloff = 1;
 
 	double r = radius(t);
@@ -186,17 +186,22 @@ void bottleneckScenario(){
 void twoPersonScenarioForce(){
 	// std::cout << "example.cpp " << force(Vector2D(0,0)) << std::endl;
 	_engine->setForceFunction(force);
+	_engine->setRadiusFunction(radius);
 	twoPersonScenario();
 }
 
 void bottleneckScenarioForce(){
 	_engine->setForceFunction(force);
+	_engine->setRadiusFunction(radius);
+
 	bottleneckScenario();
 }
 
 void twoDoorBottleneckScenarioForce(){
 	_engine->init(50, 50);
 	_engine->setForceFunction(force);
+	_engine->setRadiusFunction(radius);
+
 
     // Specify the default parameters for agents that are subsequently added.	
 	AgentInitialParameters par;
@@ -270,18 +275,22 @@ int main(int argc, char **argv)
 	float dt = 0.05f;
 	
 	//load the engine
+	// std::cout << "creating engine" << std::endl;
 	_engine = new SimulationEngine(); 
 	_engine->setTimeStep(dt);
 	_engine->setMaxSteps(numFrames);
 
 	// setup the scenario
-	bottleneckScenarioForce();
+	// std::cout << "setting up scenario" << std::endl;
+	twoDoorBottleneckScenarioForce();
 	
 	_engine->printCSVHeader();
 	// Run the scenario
 	do 
 	{
+		// std::cout << "printCSV" << std::endl;
 		_engine->printCSV();
+		// std::cout << "update" << std::endl;
 		_engine->updateSimulation();
 	} while ( !_engine->endSimulation());	
 
