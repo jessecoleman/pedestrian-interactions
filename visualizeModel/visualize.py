@@ -56,13 +56,12 @@ def animate(i):
 print('making animation')
 ani = animation.FuncAnimation(fig, animate, frames=int(numframes), interval=1000*dt//timescale, blit=False)
 
-#Writer = animation.writers['ffmpeg']
-#writer = Writer(fps=15, bitrate=1800)
-
 print('showing plot')
 plt.show()
 
 # print 'saving file'
+# Writer = animation.writers['ffmpeg']
+# writer = Writer(fps=15, bitrate=1800)
 # ani.save(fname+'.mp4', writer=writer)
 
 print('done')

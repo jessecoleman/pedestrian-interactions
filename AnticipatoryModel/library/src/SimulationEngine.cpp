@@ -21,7 +21,7 @@ TTC::SimulationEngine* simEngine;
 
 namespace TTC {
 
-	Vector2D zero(Vector2D){
+	Vector2D zero(Vector2D, double t){
 		return Vector2D(0,0);
 	}
 
@@ -65,7 +65,7 @@ namespace TTC {
 		
 		//initialize the database
 		_spatialDatabase = new SpatialProximityDatabase(Vector2D(), Vector2D(xRange,yRange), Vector2D(10.0f, 10.0f));
-		force = zero;
+		//ForceFunction = zero;
 		
 	}
 

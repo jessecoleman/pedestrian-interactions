@@ -126,6 +126,9 @@ namespace TTC {
 		void setForceFunction(ForceFunction force);
 		ForceFunction force;
 	
+		void setRadiusFunciton(RadiusFunction rad);
+		RadiusFunction rad;
+
 		/// @name Get/Set functionality
 		//@{
 		 

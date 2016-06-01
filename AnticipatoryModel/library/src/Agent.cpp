@@ -236,7 +236,10 @@ namespace TTC {
 		}	
 		// std::cout << "_Fb: " << _F;
 		//force function
-		_F += force(_position);
+		Vector2D f_add = force(_position, simEngine->getGlobalTime());
+		// std::cout << "f_add " << f_add << std::endl;
+
+		_F += f_add;
 
 		// std::cout << " _Fa: " << _F << std::endl;
 	}
@@ -255,6 +258,10 @@ namespace TTC {
 		_position += _velocity * simEngine->getTimeStep();
 		
 		
+		if(isDead()){
+			_velocity = Vector2D(0,0);
+		}
+
 		// notify proximity database that our position has changed
 		_proximityToken->updateForNewPosition (_position);
 		
