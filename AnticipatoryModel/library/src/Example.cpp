@@ -19,7 +19,7 @@
 using namespace TTC;
 
 double radiusGrowth = 0.3;
-int numPeople = 30;
+int numPeople = 50;
 
 
 SimulationEngine * _engine = 0;
@@ -297,7 +297,7 @@ int main(int argc, char **argv)
 
 	// setup the scenario
 	// std::cout << "setting up scenario" << std::endl;
-	twoDoorBottleneckScenarioForce();
+	bottleneckScenarioForce();
 	
 	_engine->printCSVHeader();
 	// Run the scenario
@@ -332,7 +332,7 @@ int main(int argc, char **argv)
 
 // 	// setup the scenario
 // 	// std::cout << "setting up scenario" << std::endl;
-// 	twoDoorBottleneckScenarioForce();
+// 	bottleneckScenarioForce();
 	
 // 	// _engine->printCSVHeader();
 // 	// Run the scenario
@@ -351,14 +351,15 @@ int main(int argc, char **argv)
 
 // int main(){
 // 	srand (time(NULL));
-// 	std::cout << "numPeople, numberDead, evacTime" << std::endl;
-// 	for(int n = 10; n <= 100; n += 10){
-// 		for(int i = 0; i < 10; i++){
-// 			numPeople = n;
+// 	numPeople = 50;
+// 	std::cout << "numberDead, evacTime" << std::endl;
+// 	// for(int n = 10; n <= 100; n += 10){
+// 		for(int i = 0; i < 100; i++){
+// 			// numPeople = n;
 // 			simulate();
-// 			std::cout << numPeople <<  "," << numberDead << "," << evacTime << std::endl;
+// 			std::cout << numberDead << "," << evacTime << std::endl;
 // 		}
-// 	}
+// 	// }
 
 // }
 
