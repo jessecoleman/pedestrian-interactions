@@ -319,7 +319,7 @@ void simulate(){
 
 	// setup the scenario
 	// std::cout << "setting up scenario" << std::endl;
-	twoDoorBottleneckScenarioForce();
+	bottleneckScenarioForce();
 	
 	// _engine->printCSVHeader();
 	// Run the scenario
