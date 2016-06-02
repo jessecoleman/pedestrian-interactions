@@ -64,6 +64,7 @@ namespace TTC {
 
 	void Agent::doStep()
 	{
+		// std::cout <<"do step" << std::endl;
 		_vPref = _goal - _position;
 		float distSqToGoal = _vPref.lengthSqr();
 
@@ -85,6 +86,7 @@ namespace TTC {
 
 	void Agent::computeForces()
 	{
+		// std::cout << "computeForces" << std::endl;
 		//driving force_velocity
 		_F = (_vPref - _velocity)/_ksi;
 

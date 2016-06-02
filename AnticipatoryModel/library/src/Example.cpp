@@ -19,7 +19,7 @@
 using namespace TTC;
 
 double radiusGrowth = 0.3;
-int numPeople = 100;
+int numPeople = 30;
 
 
 SimulationEngine * _engine = 0;
@@ -32,6 +32,14 @@ void destroy ()
 
 double radius(double t){
 	return radiusGrowth * t;
+}
+
+Vector2D zero(Vector2D f, double t){
+	return Vector2D(0,0);
+}
+
+double zerorad(double t){
+	return 0.0;
 }
 
 Vector2D force(Vector2D f, double t){
@@ -53,6 +61,8 @@ Vector2D force(Vector2D f, double t){
 void setupScenario()
 {
 
+	_engine->setForceFunction(zero);
+	_engine->setRadiusFunction(zerorad);
 
 	//initialize the engine, given the dimensions of the environment
 	_engine->init(50, 50);
@@ -96,7 +106,8 @@ void setupScenario()
 }
 
 void twoPersonScenario(){
-
+	_engine->setForceFunction(zero);
+	_engine->setRadiusFunction(zerorad);
 	_engine->init(50, 50);
 
     // Specify the default parameters for agents that are subsequently added.	
@@ -134,7 +145,8 @@ void twoPersonScenario(){
  
 void bottleneckScenario(){
 	_engine->init(50, 50);
-	_engine->setForceFunction(force);
+	// _engine->setForceFunction(zero);
+	// _engine->setRadiusFunction(zerorad);
 
     // Specify the default parameters for agents that are subsequently added.	
 	AgentInitialParameters par;
@@ -268,46 +280,11 @@ void twoDoorBottleneckScenarioForce(){
    }
 }
 
-// int main(int argc, char **argv)
-// {	
-// 	//seed randomly
-// 	srand (time(NULL));
+int main(int argc, char **argv)
+{	
+	//seed randomly
+	// srand (time(NULL));
 
-// 	//default parameters
-// 	int numFrames = 700;
-// 	float dt = 0.05f;
-	
-// 	//load the engine
-// 	// std::cout << "creating engine" << std::endl;
-// 	_engine = new SimulationEngine(); 
-// 	_engine->setTimeStep(dt);
-// 	_engine->setMaxSteps(numFrames);
-
-// 	// setup the scenario
-// 	// std::cout << "setting up scenario" << std::endl;
-// 	bottleneckScenarioForce();
-	
-// 	_engine->printCSVHeader();
-// 	// Run the scenario
-// 	do 
-// 	{
-// 		// std::cout << "printCSV" << std::endl;
-// 		_engine->printCSV();
-// 		// std::cout << "update" << std::endl;
-// 		// std::cout << "numdead " << _engine->numberDead() << " done: " << _engine->numberDone() << " agents " << _engine->getAgents().size() <<std::endl;
-// 		_engine->updateSimulation();
-// 	} while ( !_engine->endSimulation());	
-
-// 	//destroy the environment
-// 	destroy();
-
-// 	return 0;	
-// }
-
-int numberDead;
-double evacTime; 
-
-void simulate(){
 	//default parameters
 	int numFrames = 700;
 	float dt = 0.05f;
@@ -320,35 +297,70 @@ void simulate(){
 
 	// setup the scenario
 	// std::cout << "setting up scenario" << std::endl;
-	bottleneckScenarioForce();
+	twoDoorBottleneckScenarioForce();
 	
-	// _engine->printCSVHeader();
+	_engine->printCSVHeader();
 	// Run the scenario
 	do 
 	{
+		// std::cout << "printCSV" << std::endl;
+		_engine->printCSV();
+		// std::cout << "update" << std::endl;
+		// std::cout << "numdead " << _engine->numberDead() << " done: " << _engine->numberDone() << " agents " << _engine->getAgents().size() <<std::endl;
 		_engine->updateSimulation();
 	} while ( !_engine->endSimulation());	
 
-	numberDead = _engine->numberDead();
-	// std::cout << "numberdaed " << _engine->numberDead() << std::endl;
-	evacTime = _engine->getGlobalTime();
-
 	//destroy the environment
 	destroy();
+
+	return 0;	
 }
 
-int main(){
-	srand (time(NULL));
-	std::cout << "numPeople, numberDead, evacTime" << std::endl;
-	for(int n = 10; n <= 100; n += 10){
-		for(int i = 0; i < 10; i++){
-			numPeople = n;
-			simulate();
-			std::cout << numPeople <<  "," << numberDead << "," << evacTime << std::endl;
-		}
-	}
+// int numberDead;
+// double evacTime; 
 
-}
+// void simulate(){
+// 	//default parameters
+// 	int numFrames = 700;
+// 	float dt = 0.05f;
+	
+// 	//load the engine
+// 	// std::cout << "creating engine" << std::endl;
+// 	_engine = new SimulationEngine(); 
+// 	_engine->setTimeStep(dt);
+// 	_engine->setMaxSteps(numFrames);
+
+// 	// setup the scenario
+// 	// std::cout << "setting up scenario" << std::endl;
+// 	twoDoorBottleneckScenarioForce();
+	
+// 	// _engine->printCSVHeader();
+// 	// Run the scenario
+// 	do 
+// 	{
+// 		_engine->updateSimulation();
+// 	} while ( !_engine->endSimulation());	
+
+// 	numberDead = _engine->numberDead();
+// 	// std::cout << "numberdaed " << _engine->numberDead() << std::endl;
+// 	evacTime = _engine->getGlobalTime();
+
+// 	//destroy the environment
+// 	destroy();
+// }
+
+// int main(){
+// 	srand (time(NULL));
+// 	std::cout << "numPeople, numberDead, evacTime" << std::endl;
+// 	for(int n = 10; n <= 100; n += 10){
+// 		for(int i = 0; i < 10; i++){
+// 			numPeople = n;
+// 			simulate();
+// 			std::cout << numPeople <<  "," << numberDead << "," << evacTime << std::endl;
+// 		}
+// 	}
+
+// }
 
 
 

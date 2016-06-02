@@ -54,6 +54,8 @@ plt.plot([-4,4],[8,8],'k-')
 plt.plot([-4,4],[-8,-8],'k-')
 plt.plot([-4,-4],[8,-8],'k-')
 plt.plot([4,4],[8,-8],'k-')
+plt.plot([4,4],[2,-2],'w-',linewidth=2)
+plt.plot([-4,-4],[2,-2],'w-',linewidth=2)
 
 radiusGrowth = 0.3
 
