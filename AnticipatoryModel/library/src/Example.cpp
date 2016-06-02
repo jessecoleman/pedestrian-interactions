@@ -18,7 +18,8 @@
 #include <utility>
 using namespace TTC;
 
-double radiusGrowth = 0;
+double radiusGrowth = 0.3;
+int numPeople = 100;
 
 
 SimulationEngine * _engine = 0;
@@ -168,7 +169,7 @@ void bottleneckScenario(){
 	_engine->addObstacle(toprightline);
 	_engine->addObstacle(bottomrightline);
 
-   for (int i = 0; i < 50; i ++){
+   for (int i = 0; i < numPeople; i ++){
 		AgentInitialParameters p = par;  
 		p.position = Vector2D(((float)rand()/(float)RAND_MAX-0.5)*4,((float)rand()/(float)RAND_MAX-0.5)*8);
 		p.goal = Vector2D(10, 0);
@@ -243,7 +244,7 @@ void twoDoorBottleneckScenarioForce(){
 	_engine->addObstacle(topleftline);
 	_engine->addObstacle(bottomleftline);
 
-   for (int i = 0; i < 50; i ++){
+   for (int i = 0; i < numPeople; i ++){
 		AgentInitialParameters p = par;  
 		p.position = Vector2D(((float)rand()/(float)RAND_MAX-0.5)*4,((float)rand()/(float)RAND_MAX-0.5)*8);
 		Vector2D goal1(10,0);
@@ -329,6 +330,7 @@ void simulate(){
 	} while ( !_engine->endSimulation());	
 
 	numberDead = _engine->numberDead();
+	// std::cout << "numberdaed " << _engine->numberDead() << std::endl;
 	evacTime = _engine->getGlobalTime();
 
 	//destroy the environment
@@ -337,12 +339,12 @@ void simulate(){
 
 int main(){
 	srand (time(NULL));
-	std::cout << "alpha, numberDead, evacTime" << std::endl;
-	for(double alpha = 0; alpha < 2.5; alpha += 0.1){
+	std::cout << "numPeople, numberDead, evacTime" << std::endl;
+	for(int n = 10; n <= 100; n += 10){
 		for(int i = 0; i < 10; i++){
-			radiusGrowth = alpha;
+			numPeople = n;
 			simulate();
-			std::cout << alpha <<  "," << numberDead << "," << evacTime << std::endl;
+			std::cout << numPeople <<  "," << numberDead << "," << evacTime << std::endl;
 		}
 	}
 
